@@ -1,99 +1,86 @@
 "use client";
 
-import { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState } from "react";
 import emailjs from "@emailjs/browser";
 
-export default function Contact() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-
+export default function ContactPage() {
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState("");
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     setStatus("送信中...");
 
     emailjs
       .send(
-        "service_08v7hfd",   // ← あなたの Service ID
-        "template_xq5ukvd",  // ← あなたの Template ID
+        "service_08v7hfd",    // ✅ あなたの Service ID
+        "template_xq5ukvd",   // ✅ 管理者宛 Template ID
         {
           name: form.name,
           email: form.email,
           message: form.message,
         },
-        "DpAWRnc9Ih0eyayz0"  // ← あなたの Public Key
+        "DpAWRnc9Ih0eyayz0"   // ✅ あなたの Public Key
       )
-      .then(() => {
-        setStatus("送信が完了しました！ありがとうございます。");
-        setForm({ name: "", email: "", message: "" });
-      })
-      .catch((error) => {
-        console.error("送信エラー:", error);
-        setStatus("送信に失敗しました。再度お試しください。");
-      });
+      .then(
+        () => {
+          setStatus("送信が完了しました！ありがとうございます。");
+          setForm({ name: "", email: "", message: "" });
+        },
+        (error) => {
+          console.error(error);
+          setStatus("送信に失敗しました。しばらくして再度お試しください。");
+        }
+      );
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-8">
-      <h1 className="text-3xl font-bold mb-6 text-blue-600">お問い合わせ</h1>
-
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-md w-full max-w-md space-y-4"
-      >
-        <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2">お名前</label>
+    <main className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-6">
+      <div className="max-w-lg w-full bg-white rounded-2xl shadow-md p-8">
+        <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">
+          お問い合わせフォーム
+        </h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"
             name="name"
+            placeholder="お名前"
             value={form.name}
             onChange={handleChange}
+            className="w-full border border-gray-300 rounded-lg p-3"
             required
-            className="w-full border border-gray-300 rounded p-2"
           />
-        </div>
-
-        <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2">メールアドレス</label>
           <input
             type="email"
             name="email"
+            placeholder="メールアドレス"
             value={form.email}
             onChange={handleChange}
+            className="w-full border border-gray-300 rounded-lg p-3"
             required
-            className="w-full border border-gray-300 rounded p-2"
           />
-        </div>
-
-        <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2">お問い合わせ内容</label>
           <textarea
             name="message"
+            placeholder="お問い合わせ内容"
             value={form.message}
             onChange={handleChange}
+            className="w-full border border-gray-300 rounded-lg p-3 h-32"
             required
-            className="w-full border border-gray-300 rounded p-2 h-32"
           ></textarea>
-        </div>
-
-        <button
-          type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-        >
-          送信
-        </button>
-      </form>
-
-      {status && <p className="mt-4 text-gray-700 text-sm">{status}</p>}
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition"
+          >
+            送信する
+          </button>
+        </form>
+        {status && <p className="mt-4 text-center text-sm text-gray-700">{status}</p>}
+      </div>
     </main>
   );
 }

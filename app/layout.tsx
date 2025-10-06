@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -29,6 +30,23 @@ export default function RootLayout({
       >
         {children}
       </body>
+=======
+import "./globals.css";
+import { metadata } from "./metadata";
+import LayoutClient from "./layout-client";
+
+export { metadata };
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="ja">
+      {/* ✅ クライアントレイアウトをここで呼び出す */}
+      <LayoutClient>{children}</LayoutClient>
+>>>>>>> cba6bfd (initial commit)
     </html>
   );
 }

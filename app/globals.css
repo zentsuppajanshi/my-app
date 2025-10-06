@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+>>>>>>> cba6bfd (initial commit)
 @import "tailwindcss";
 
 :root {

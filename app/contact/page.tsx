@@ -4,28 +4,33 @@ import React, { useState } from "react";
 import emailjs from "@emailjs/browser";
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
   const [status, setStatus] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     setStatus("送信中...");
 
     emailjs
       .send(
-        "service_08v7hfd",    // ✅ あなたの Service ID
-        "template_xq5ukvd",   // ✅ 管理者宛 Template ID
+        "service_08v7hfd", // ✅ あなたの Service ID
+        "template_xq5ukvd", // ✅ あなたの Template ID
         {
           name: form.name,
           email: form.email,
           message: form.message,
         },
-        "DpAWRnc9Ih0eyayz0"   // ✅ あなたの Public Key
+        "DpAWRnc9Ih0eyayz0" // ✅ あなたの Public Key
       )
       .then(
         () => {
@@ -40,9 +45,9 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-6">
-      <div className="max-w-lg w-full bg-white rounded-2xl shadow-md p-8">
-        <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">
+    <main className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6">
+      <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-lg">
+        <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">
           お問い合わせフォーム
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -71,15 +76,17 @@ export default function ContactPage() {
             onChange={handleChange}
             className="w-full border border-gray-300 rounded-lg p-3 h-32"
             required
-          ></textarea>
+          />
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition font-semibold"
           >
             送信する
           </button>
         </form>
-        {status && <p className="mt-4 text-center text-sm text-gray-700">{status}</p>}
+        {status && (
+          <p className="mt-4 text-center text-gray-700 text-sm">{status}</p>
+        )}
       </div>
     </main>
   );

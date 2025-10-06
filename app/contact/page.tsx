@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import emailjs from "@emailjs/browser";
 
-export default function ContactPage() {
+const ContactPage: React.FC = () => {
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -11,13 +11,11 @@ export default function ContactPage() {
   });
   const [status, setStatus] = useState("");
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("送信中...");
 
@@ -90,4 +88,6 @@ export default function ContactPage() {
       </div>
     </main>
   );
-}
+};
+
+export default ContactPage;

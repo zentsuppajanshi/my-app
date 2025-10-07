@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { metadata as siteMetadata } from "./metadata"; // ← import名を変更して競合を回避
 
+export const metadata: Metadata = siteMetadata; // ← Next.js向けに再エクスポート
 const geistSans = Geist({
   subsets: ["latin"],
   variable: "--font-geist-sans",
@@ -11,11 +13,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
 });
-
-export const metadata: Metadata = {
-  title: "Makoto Kouno | Portfolio",
-  description: "河埜誠のポートフォリオサイト。SaaS企画・DX推進・AI活用など。",
-};
 
 export default function RootLayout({
   children,
